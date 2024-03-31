@@ -60,7 +60,7 @@ build_libuv() {
     curl -fSsLo- "https://dist.libuv.org/dist/v${LIBUV_VERSION}/libuv-v${LIBUV_VERSION}.tar.gz" | tar xz -C "${BUILD_DIR}"
     pushd "${BUILD_DIR}/libuv-v${LIBUV_VERSION}"
         ./autogen.sh
-        env CFLAGS=-fPIC ./configure --disable-shared --enable-static --prefix="${STAGE_DIR}" --host="${TARGET}"
+        env CFLAGS=-fpic ./configure --disable-shared --enable-static --prefix="${STAGE_DIR}" --host="${TARGET}"
         make -j"$(nproc)" install
     popd
 }
@@ -123,7 +123,7 @@ build_ttyd() {
         -DCMAKE_INSTALL_PREFIX="${STAGE_DIR}" \
         -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" \
         -DCMAKE_C_FLAGS="-Os -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -flto" \
-        -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -Wl,-s -Wl,-Bsymbolic -Wl,--gc-sections" \
+        -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -Wl,-Bsymbolic -Wl,--gc-sections" \
         -DCMAKE_BUILD_TYPE=RELEASE \
         ..
     make install

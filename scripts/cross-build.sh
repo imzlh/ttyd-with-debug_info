@@ -123,8 +123,7 @@ build_ttyd() {
         -DCMAKE_INSTALL_PREFIX="${STAGE_DIR}" \
         -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" \
         -DCMAKE_C_FLAGS="-Os -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -flto" \
-        -DCMAKE_EXE_LINKER_FLAGS="-static -no-pie -Wl,-Bsymbolic -Wl,--gc-sections" \
-        -DCMAKE_BUILD_TYPE=RELEASE \
+        -DCMAKE_EXE_LINKER_FLAGS="-static" \
         ..
     make install
 }

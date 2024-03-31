@@ -20,7 +20,7 @@ build_zlib() {
     echo "=== Building zlib-${ZLIB_VERSION} (${TARGET})..."
     curl -fSsLo- "https://zlib.net/zlib-${ZLIB_VERSION}.tar.gz" | tar xz -C "${BUILD_DIR}"
     pushd "${BUILD_DIR}"/zlib-"${ZLIB_VERSION}"
-        env CHOST="${TARGET}" ./configure --static --archs="-fPIC" --prefix="${STAGE_DIR}"
+        env CHOST="${TARGET}" ./configure --static --archs="-fpic" --prefix="${STAGE_DIR}"
         make -j"$(nproc)" install
     popd
 }
@@ -122,7 +122,7 @@ build_ttyd() {
     cmake -DCMAKE_TOOLCHAIN_FILE="${BUILD_DIR}/cross-${TARGET}.cmake" \
         -DCMAKE_INSTALL_PREFIX="${STAGE_DIR}" \
         -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" \
-        -DCMAKE_C_FLAGS="-Os -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -flto" \
+        -DCMAKE_C_FLAGS="-Os -gdwarf-4 -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -flto" \
         -DCMAKE_EXE_LINKER_FLAGS="-static" \
         ..
     make install
